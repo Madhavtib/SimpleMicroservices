@@ -23,7 +23,7 @@ hospitals: Dict[UUID, HospitalRead] = {}
 appointments: Dict[UUID, AppointmentRead] = {}
 
 app = FastAPI(
-    title="Person/Address API",
+    title="Hospital/Appointment API",
     description="Demo FastAPI app using Pydantic v2 models for Hospital and Appointment",
     version="0.1.0",
 )
@@ -100,13 +100,10 @@ def create_appointment(appointment: AppointmentCreate):
 
 @app.get("/appointments", response_model=List[AppointmentRead], summary="List all appointments")
 def list_appointments(
-    person_id: Optional[str] = Query(None, description="Filter by person UNI"),
     hospital_id: Optional[UUID] = Query(None, description="Filter by hospital ID"),
 ):
     """List all appointments, with optional filters."""
     results = list(appointments.values())
-    if person_id is not None:
-        results = [a for a in results if a.person_id == person_id]
     if hospital_id is not None:
         results = [a for a in results if a.hospital_id == hospital_id]
     return results
@@ -149,7 +146,7 @@ def delete_appointment(appointment_id: UUID = Path(..., description="Appointment
 # -----------------------------------------------------------------------------
 @app.get("/")
 def root():
-    return {"message": "Welcome to the Person/Address API. See /docs for OpenAPI UI."}
+    return {"message": "Welcome to the Hospital/Appointment API. See /docs for OpenAPI UI."}
 
 # -----------------------------------------------------------------------------
 # Entrypoint for `python main.py`
