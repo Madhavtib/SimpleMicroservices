@@ -14,11 +14,6 @@ class AppointmentBase(BaseModel):
         description="Persistent Appointment ID (server-generated).",
         json_schema_extra={"example": "789e8400-e29b-41d4-a716-446655440000"},
     )
-    person_id: UNIType = Field(
-        ...,
-        description="UNI of the person for this appointment.",
-        json_schema_extra={"example": "abc1234"},
-    )
     hospital_id: Optional[UUID] = Field(
         None,
         description="ID of the hospital for this appointment.",
@@ -40,7 +35,6 @@ class AppointmentBase(BaseModel):
             "examples": [
                 {
                     "id": "789e8400-e29b-41d4-a716-446655440000",
-                    "person_id": "abc1234",
                     "hospital_id": "123e4567-e89b-12d3-a456-426614174000",
                     "appointment_time": "2025-09-12T15:00:00Z",
                     "description": "Annual checkup",
@@ -56,7 +50,6 @@ class AppointmentCreate(AppointmentBase):
             "examples": [
                 {
                     "id": "88888888-8888-4888-8888-888888888888",
-                    "person_id": "xy123",
                     "hospital_id": "123e4567-e89b-12d3-a456-426614174000",
                     "appointment_time": "2025-10-01T09:00:00Z",
                     "description": "Dental cleaning",
@@ -67,9 +60,6 @@ class AppointmentCreate(AppointmentBase):
 
 class AppointmentUpdate(BaseModel):
     """Partial update; appointment ID is taken from the path, not the body."""
-    person_id: Optional[UNIType] = Field(
-        None, description="UNI of the person.", json_schema_extra={"example": "xy123"}
-    )
     hospital_id: Optional[UUID] = Field(
         None, description="ID of the hospital.", json_schema_extra={"example": "123e4567-e89b-12d3-a456-426614174000"}
     )
@@ -109,7 +99,6 @@ class AppointmentRead(AppointmentBase):
             "examples": [
                 {
                     "id": "789e8400-e29b-41d4-a716-446655440000",
-                    "person_id": "abc1234",
                     "hospital_id": "123e4567-e89b-12d3-a456-426614174000",
                     "appointment_time": "2025-09-12T15:00:00Z",
                     "description": "Annual checkup",
