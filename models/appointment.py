@@ -5,8 +5,6 @@ from uuid import UUID, uuid4
 from datetime import datetime
 from pydantic import BaseModel, Field, StringConstraints
 
-# Import UNIType from person.py for consistency
-UNIType = Annotated[str, StringConstraints(pattern=r"^[a-z]{2,3}\d{1,4}$")]
 
 class AppointmentBase(BaseModel):
     id: UUID = Field(
